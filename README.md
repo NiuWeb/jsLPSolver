@@ -1,10 +1,21 @@
-> About this fork
+> ### About this fork
 >
 > I made a fork of the original code at https://github.com/JWally/jsLPSolver to make some fixes I needed for my project:
 > - Solver class method `.Solve()` moved outside the function block to the `Solver.prototype` to avoid losing the `this` context when importing from another file.
 > - Edited type declarations to correctly identify the variable names to be exported in the solution object.
 > - Removed code related to filesystem module.
->
+> 
+> The project can be installed as npm dependency by running:
+> ```
+> npm i https://github.com/NiuWeb/jsLPSolver
+> ```
+>Then you can just import the `Solve` method normally:
+>```typescript
+>import { Solve } from "javascript-lp-solver"
+>console.log( Solve({/* ... */}) );
+>```
+> And run the code somehow like `ts-node index.ts`.
+> 
 > I let the original description below...
 
 jsLPSolver
