@@ -413,115 +413,17 @@ exports.solve = function(model){
         if(!model.external.tempName){
             rej("No 'tempName' given. This is necessary to produce a staging file for the solver to operate on");
         }
-        
-        
-        
-        //
-        // To my knowledge, in Windows, you cannot directly pipe text into
-        // an exe...
-        //
-        // Thus, our process looks like this...
-        //
-        // 1.) Convert a model to something an external solver can use
-        // 2.) Save the results from step 1 as a temp-text file
-        // 3.) Pump the results into an exe | whatever-linux-uses
-        // 4.) 
-        // 
-        //
-        
-        var fs = require("fs");
-        
-        fs.writeFile(model.external.tempName, data, function(fe, fd){
-            if(fe){
-                rej(fe);
-            } else {
-                //
-                // So it looks like we wrote to a file and closed it.
-                // Neat.
-                //
-                // Now we need to execute our CLI...
-                var exec = require("child_process").execFile;
-                
-                //
-                // Put the temp file name in the args array...
-                //
-                model.external.args.push(model.external.tempName);
-                
-                exec(model.external.binPath, model.external.args, function(e,data){
-                    if(e){
-                        
-                        if(e.code === 1){
-                            res(clean_data(data));
-                        } else {
-                            
-                            var codes = {
-                                "-2": "Out of Memory",
-                                "1": "SUBOPTIMAL",
-                                "2": "INFEASIBLE",
-                                "3": "UNBOUNDED",
-                                "4": "DEGENERATE",
-                                "5": "NUMFAILURE",
-                                "6": "USER-ABORT",
-                                "7": "TIMEOUT",
-                                "9": "PRESOLVED",
-                                "25": "ACCURACY ERROR",
-                                "255": "FILE-ERROR"
-                            };
-                            
-                            var ret_obj = {
-                                "code": e.code,
-                                "meaning": codes[e.code],
-                                "data": data
-                            };
-                            
-                            rej(ret_obj);
-                        }
 
-                    } else {
-                        // And finally...return it.
-                        res(clean_data(data));
-                    }
-                });
-            }
-        });
     });
 };
 
-
-
-
-
-/*
-model.external = {
-    "binPath": "C:/lpsolve/lp_solve.exe",
-    "tempName": "C:/temp/out.txt",
-    "args": [
-        "-S2"
-    ]
-    
-}
-
-*/
 },{"./Reformat.js":2,"child_process":1,"fs":1}],4:[function(require,module,exports){
-/*global describe*/
-/*global require*/
-/*global it*/
-/*global console*/
-/*global process*/
-/*global exports*/
-/*global Promise*/
-/*global module*/
+
 
 module.exports = {
     "lpsolve": require("./lpsolve/main.js")
 };
 },{"./lpsolve/main.js":3}],5:[function(require,module,exports){
-/*global describe*/
-/*global require*/
-/*global module*/
-/*global it*/
-/*global console*/
-/*global process*/
 
 var Tableau = require("./Tableau/Tableau.js");
 var branchAndCut = require("./Tableau/branchAndCut.js");

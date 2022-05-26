@@ -1,3 +1,12 @@
+> About this fork
+>
+> I made a fork of the original code at https://github.com/JWally/jsLPSolver to make some fixes I needed for my project:
+> - Solver class method `.Solve()` moved outside the function block to the `Solver.prototype` to avoid losing the `this` context when importing from another file.
+> - Edited type declarations to correctly identify the variable names to be exported in the solution object.
+> - Removed code related to filesystem module.
+>
+> I let the original description below...
+
 jsLPSolver
 ==========
 [A linear programming solver for the rest of us!](https://youtu.be/LbfMmCf5-ds?t=51)
